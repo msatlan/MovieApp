@@ -43,7 +43,7 @@ class GetUserRequest {
                     if let data = data,
                       let jsonArray = self.parseArray(json: data) {
                         if let dict = jsonArray.first {
-                            let user = User(json: dict)!
+                            let user = User(json: dict)
                             DispatchQueue.main.async {
                                 completion(user, nil)
                             }

@@ -79,11 +79,9 @@ class LoginViewController: UIViewController {
                 return
             }
 
-            if let username = user?.username {
+            if let user = user {
                 // login
                 DataManager.shared.user = user
-                print(DataManager.shared.user)
-                print(DataManager.shared.user!.username)
                 let moviesListViecontroller = MoviesListTabBarController()
                 self.navigationController?.pushViewController(moviesListViecontroller, animated: true)
             } else {
