@@ -12,6 +12,8 @@ class LoginViewController: UIViewController {
 
 // MARK: - Properties
     private let userNameTextField = UITextField()
+    private var usernameInputString = ""
+    private var activeTextField: UITextField!
     private let loginButton = UIButton()
     
 // MARK - View life cycle
@@ -26,6 +28,8 @@ class LoginViewController: UIViewController {
 
         //self.view.backgroundColor = UIColor.blue
         
+        userNameTextField.returnKeyType = UIReturnKeyType.done
+        userNameTextField.delegate = self;
         configureUI()
         activateConstraints()
     }
@@ -69,39 +73,70 @@ class LoginViewController: UIViewController {
     
     // Button action
     @objc func login() {
-        print("login")
-        
-        GetUserRequest().execute(username: "Marko2221") { (username, error) in
+        GetUserRequest().execute(username: usernameInputString) { (user, error) in
             if let error = error {
-                self.showAlert(withError: error)
+                self.showErrorAlert(withError: error)
                 return
             }
 
-            if let username = username {
+            if let username = user?.username {
                 // login
+                DataManager.shared.user = user
+                print(DataManager.shared.user)
+                print(DataManager.shared.user!.username)
+                let moviesListViecontroller = MoviesListTabBarController()
+                self.navigationController?.pushViewController(moviesListViecontroller, animated: true)
             } else {
-                CreateUserRequest().execute(username: "Marko2221", completion: { (user, error) in
-                    print(user)
-                    print(error)
-                })
+                self.showCreateUserAlert(username: self.usernameInputString)
             }
         }
-        
-        //let moviesListViecontroller = MoviesListTabBarController()
-        //self.navigationController?.pushViewController(moviesListViecontroller, animated: true)
+        activeTextField.resignFirstResponder()
     }
     
+    func showCreateUserAlert(username: String) {
+        let alertController = UIAlertController(title: "", message: "Do you want to create a new user with username: \(username)?", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler:nil))
+        alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction) in
+            CreateUserRequest().execute(username: username, completion: { (user, error) in
+                if let error = error {
+                    self.showErrorAlert(withError: error)
+                    print(error.localizedDescription)
+                    
+                    return
+                }
+                
+                if let user = user {
+                    DataManager.shared.user = user
+                    self.navigationController?.pushViewController(MoviesListTabBarController(), animated: true)
+                }
+                
+            })
+        }))
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension LoginViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        usernameInputString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+        
+        activeTextField = textField
+        
+        return true
+    }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 extension UIViewController {
     
-    func showAlert(withError error: MovieAPIError) {
+    func showErrorAlert(withError error: MovieAPIError) {
         let alertController = UIAlertController(title: error.title, message: error.message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
 }
+

@@ -23,10 +23,9 @@ class MoviesListTabBarController: UITabBarController {
 
 // MARK: - Methods
     func configureNavigationBar() {
-        let username = NSString (string: "Welcome") as String
-        let usernameBarButtonItem = UIBarButtonItem(title: username, style: .plain, target: nil, action: nil)
-        self.navigationItem.leftBarButtonItem = usernameBarButtonItem
-
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        self.navigationItem.title = "Welcome \(DataManager.shared.user?.username ?? "")"
         
         let logoutBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
         self.navigationItem.rightBarButtonItem  = logoutBarButtonItem

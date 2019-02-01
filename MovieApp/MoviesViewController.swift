@@ -13,21 +13,17 @@ class MoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Movies"
-        
         view.backgroundColor = UIColor.red
         
+        GetAllMoviesRequest().execute { (success, error) in
+            if let error = error {
+                self.showErrorAlert(withError: error)
+                return
+            }
+        }
+        
+        //print("DataManager.shared.user?.username \(DataManager.shared.user?.username)")
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

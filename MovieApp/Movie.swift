@@ -8,32 +8,27 @@
 
 import Foundation
 
-
-
-/*
- struct ExchangeRate: Codable {
- var currencyCode: String
- var unitValue: Int
- var buyingRate: Float
- var medianRate: Float
- var sellingRate: Float
- 
- private enum CodingKeys: String, CodingKey {
- case currencyCode = "currency_code"
- case unitValue = "unit_value"
- case buyingRate = "buying_rate"
- case medianRate = "median_rate"
- case sellingRate = "selling_rate"
- }
- 
- init(from decoder: Decoder) throws {
- let container = try decoder.container(keyedBy: CodingKeys.self)
- 
- self.currencyCode = try container.decode(String.self, forKey: .currencyCode)
- self.unitValue = try container.decode(Int.self, forKey: .unitValue)
- self.buyingRate = Float(try container.decode(String.self, forKey: .buyingRate))!
- self.medianRate = Float(try container.decode(String.self, forKey: .medianRate))!
- self.sellingRate = Float(try container.decode(String.self, forKey: .sellingRate))!
- }
- }
- */
+class Movie {
+    var id = 0
+    var name = ""
+    var year = 0
+    var thumbnailURL = ""
+    var director = ""
+    var mainStar = ""
+    var description = ""
+    var genres: [String] = []
+    
+    /*
+    "id": 2,
+    "name": "cvd",
+    "year": 3452,
+    "thumbnail": "dog",
+    "director": "fog",
+    "main_star": "dog",
+    "description": "dfg",
+    "created_at": "2019-01-28T09:10:15.741Z",
+    "updated_at": "2019-01-28T09:10:15.741Z",
+    "url": "http://localhost:3000/api/movies/2",
+    "gentres": []
+*/
+}

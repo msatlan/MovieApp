@@ -11,10 +11,11 @@ import Foundation
 class DataManager {
     static let shared = DataManager()
     
-    var id = 0
-    var username = ""
+    var user: User?
+    var movies: [Movie]?
     
     private init() {
-        
     }
+    
+    
 }

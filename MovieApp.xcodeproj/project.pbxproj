@@ -17,6 +17,7 @@
 		2EDD044C2201686500C26A54 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD044B2201686500C26A54 /* Movie.swift */; };
 		2EDD044E2201687700C26A54 /* MovieAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD044D2201687700C26A54 /* MovieAPI.swift */; };
 		2EDD04502202DE0200C26A54 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD044F2202DE0200C26A54 /* DataManager.swift */; };
+		2EDD04522203532D00C26A54 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD04512203532D00C26A54 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		2EDD044B2201686500C26A54 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		2EDD044D2201687700C26A54 /* MovieAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPI.swift; sourceTree = "<group>"; };
 		2EDD044F2202DE0200C26A54 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		2EDD04512203532D00C26A54 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				2EDD044B2201686500C26A54 /* Movie.swift */,
 				2EDD044D2201687700C26A54 /* MovieAPI.swift */,
 				2EDD044F2202DE0200C26A54 /* DataManager.swift */,
+				2EDD04512203532D00C26A54 /* User.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 				2EDD044E2201687700C26A54 /* MovieAPI.swift in Sources */,
 				2EDD04302200D55C00C26A54 /* AppDelegate.swift in Sources */,
 				2EDD044C2201686500C26A54 /* Movie.swift in Sources */,
+				2EDD04522203532D00C26A54 /* User.swift in Sources */,
 				2EDD04452200E12400C26A54 /* MoviesListTabBarController.swift in Sources */,
 				2EDD04492200EA4400C26A54 /* FavoritesViewController.swift in Sources */,
 				2EDD04472200EA2800C26A54 /* MoviesViewController.swift in Sources */,
