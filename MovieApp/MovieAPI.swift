@@ -112,7 +112,6 @@ class CreateUserRequest {
             }
             
             if let response = response as? HTTPURLResponse {
-                print(response.statusCode)
                 switch(response.statusCode) {
                 case 200:
                     if let data = data,
@@ -123,9 +122,17 @@ class CreateUserRequest {
                         }
                     }
                 case 422:
-                    print("status 422")
-                    DispatchQueue.main.async {
-                        completion(nil, MovieAPIError())
+                    if let data = data,
+                        let json = self.parse(json: data),
+                        let key = json.keys.first,
+                        let message = (json[key] as? [String])?.first {
+                        DispatchQueue.main.async {
+                            completion(nil, MovieAPIError(message: "\(key) \(message)"))
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            completion(nil, MovieAPIError())
+                        }
                     }
                 default:
                     DispatchQueue.main.async {
