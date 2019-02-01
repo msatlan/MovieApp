@@ -8,27 +8,58 @@
 
 import Foundation
 
-class Movie {
-    var id = 0
-    var name = ""
-    var year = 0
-    var thumbnailURL = ""
-    var director = ""
-    var mainStar = ""
-    var description = ""
-    var genres: [String] = []
+struct Genre {
+    var name: String
     
-    /*
-    "id": 2,
-    "name": "cvd",
-    "year": 3452,
-    "thumbnail": "dog",
-    "director": "fog",
-    "main_star": "dog",
-    "description": "dfg",
-    "created_at": "2019-01-28T09:10:15.741Z",
-    "updated_at": "2019-01-28T09:10:15.741Z",
-    "url": "http://localhost:3000/api/movies/2",
-    "gentres": []
-*/
+    init?(json: [String : Any]) {
+        guard
+            let name = json["name"] as? String
+            else {
+                return nil
+        }
+        self.name = name
+    }
+}
+
+struct Movie {
+    var id: Int
+    var name: String
+    var year: Int
+    var thumbnailURL: String
+    var director: String
+    var mainStar : String
+    var description : String
+    var genres: [Genre]
+    var favorite: Bool = false
+
+    init?(json: [String : Any]) {
+        guard
+            let id = json["id"] as? Int,
+            let name = json["name"] as? String,
+            let year = json["year"] as? Int
+            else {
+                return nil
+        }
+        
+        self.id = id
+        self.name = name
+        self.year = year
+        
+        self.thumbnailURL = json["thumbnailURL"] as? String ?? ""
+        self.director = json["director"] as? String ?? ""
+        self.mainStar = json["mainStar"] as? String ?? ""
+        self.description = json["description"] as? String ?? ""
+        
+        var genresArray: [Genre] = []
+        
+        if let genresJson = json["gentres"] as? [[String : Any]] {
+            for json in genresJson {
+                if let genre = Genre(json: json) {
+                    genresArray.append(genre)
+                }
+            }
+        }
+        
+        self.genres = genresArray
+    }
 }

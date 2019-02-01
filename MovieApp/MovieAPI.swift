@@ -18,11 +18,6 @@ struct MovieAPIError: Error {
     }
 }
 
-enum Success {
-    case True
-    case False
-}
-
 class GetUserRequest {
     
     func execute(username: String, completion: @escaping((User?, MovieAPIError?) -> Void)) {
@@ -153,15 +148,24 @@ class CreateUserRequest {
     }
 }
 
-class GetAllMoviesRequest {
-    func execute(completion: @escaping (Success, MovieAPIError?) -> Void) {
-        var urlRequest = URLRequest(url: URL(string: "http://46.101.218.241/api/movies")!)
+
+// GetMoviesRequest with ID returns favorite movies, without ID returns all movies
+class GetMoviesRequest {
+    func execute(userID: Int? = nil, completion: @escaping ([Movie]?, MovieAPIError?) -> Void) {
+        var urlRequest: URLRequest
+        
+        if let userID = userID {
+            urlRequest = URLRequest(url: URL(string: "http://46.101.218.241/api/users/\(userID)/movies")!)
+        } else {
+            urlRequest = URLRequest(url: URL(string: "http://46.101.218.241/api/movies")!)
+        }
+
         urlRequest.allHTTPHeaderFields = ["Content-Type": "application/json"]
         
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
                 DispatchQueue.main.async {
-                    completion(.False, MovieAPIError(message: error.localizedDescription))
+                    completion(nil, MovieAPIError(message: error.localizedDescription))
                 }
                 return
             }
@@ -169,56 +173,31 @@ class GetAllMoviesRequest {
             if let response = response as? HTTPURLResponse {
                 switch(response.statusCode) {
                 case 200:
-                    print("status 200")
                     if let data = data,
                         let jsonArray = self.parseArray(json: data) {
-                        print(jsonArray)
                         var moviesArray: [Movie] = []
-                        
                         for json in jsonArray {
-                            let movie = Movie()
-                            
-                            if let id = json["id"] as? Int {
-                                movie.id = id
+                            if var movie = Movie(json: json) {
+                                if userID != nil {
+                                    movie.favorite = true
+                                }
+                                moviesArray.append(movie)
                             }
-                            
-                            if let name = json["name"] as? String {
-                                movie.name = name
-                            }
-                            
-                            if let year = json["year"] as? Int {
-                                movie.year = year
-                            }
-                            
-                            if let thumbnailURL = json["thumbnailURL"] as? String {
-                                movie.thumbnailURL = thumbnailURL
-                            }
-                            
-                            if let director = json["director"] as? String {
-                                movie.director = director
-                            }
-                            
-                            if let mainStar = json["mainStar"] as? String {
-                                movie.mainStar = mainStar
-                            }
-                            
-                            if let description = json["description"] as? String {
-                                movie.description = description
-                            }
-                            
-                            if let genres = json["gentres"] as? [String : Any] {
-                                print(genres)
-                            }
-                            
-                            moviesArray.append(movie)
                         }
                         for movie in moviesArray {
-                            //print(movie.id, movie.name, movie.year, movie.thumbnailURL, movie.director, movie.mainStar, movie.description)
+                            print(movie)
+                        }
+                        DispatchQueue.main.async {
+                            completion(moviesArray, nil)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            completion(nil, MovieAPIError())
                         }
                     }
                 default:
                     DispatchQueue.main.async {
-                        completion(.False, MovieAPIError())
+                        completion(nil, MovieAPIError())
                     }
                 }
             }
@@ -234,6 +213,35 @@ class GetAllMoviesRequest {
             print("JSON error: \(error)")
             return nil
         }
+    }
+}
+
+// No error means success
+class FavouriteMovieRequest {
+    func execute(userID: Int, movieID: Int, favorite: Bool, completion: @escaping((MovieAPIError?)->Void)) {
+        let verb = favorite ? "favorite" : "unfavorite"
+        var urlRequest = URLRequest(url: URL(string: "http://46.101.218.241/api/users/\(userID)/movies/\(movieID)/\(verb)")!)
+        urlRequest.allHTTPHeaderFields = ["Content-Type": "application/json"]
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+            if let error = error {
+                DispatchQueue.main.async {
+                    completion(MovieAPIError(message: error.localizedDescription))
+                }
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse,
+                response.statusCode == 200 {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(MovieAPIError())
+                }
+            }
+        }.resume()
     }
 }
 

@@ -13,9 +13,8 @@ class DataManager {
     
     var user: User?
     var movies: [Movie]?
+    var favoriteMovies: [Movie]?
     
     private init() {
     }
-    
-    
 }
