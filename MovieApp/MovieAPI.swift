@@ -216,7 +216,7 @@ class GetMoviesRequest {
     }
 }
 
-// No error means success
+// No error means success, setting favorite parameter to true calls Set favorite movie to user, setting favorite parameter to false calls Set unfavorite movie to user
 class FavouriteMovieRequest {
     func execute(userID: Int, movieID: Int, favorite: Bool, completion: @escaping((MovieAPIError?)->Void)) {
         let verb = favorite ? "favorite" : "unfavorite"

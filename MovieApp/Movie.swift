@@ -31,6 +31,7 @@ struct Movie {
     var description : String
     var genres: [Genre]
     var favorite: Bool = false
+    var timesFavorited: Int
 
     init?(json: [String : Any]) {
         guard
@@ -61,5 +62,6 @@ struct Movie {
         }
         
         self.genres = genresArray
+        self.timesFavorited = 0
     }
 }

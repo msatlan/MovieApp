@@ -9,14 +9,11 @@
 import UIKit
 
 class MoviesListTabBarController: UITabBarController {
-
-// MARK: - Properties
-    let moviesTableView = UITableView()
-
+    
 // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         configureNavigationBar()
         configureTabBarController()
     }

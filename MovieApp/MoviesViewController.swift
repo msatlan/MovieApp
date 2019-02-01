@@ -9,28 +9,37 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
+    let tableView = UITableView()
     
-    
+// MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let button = UIButton(frame: CGRect(x: 50, y: 200, width: 100, height: 70))
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        button.backgroundColor = UIColor.blue
-        self.view.addSubview(button)
-        
-        view.backgroundColor = UIColor.red
-        
-        GetMoviesRequest().execute(userID: DataManager.shared.user?.id) { (movies, error) in
+        GetMoviesRequest().execute { (movies, error) in
             if let error = error {
                 self.showErrorAlert(withError: error)
                 return
             }
             
             DataManager.shared.movies = movies
+            
+            self.tableView.reloadData()
         }
+        
+        configureTableView()
     }
 
+    private func configureTableView() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 49)
+        
+        self.view.addSubview(tableView)
+        
+    }
+    /*
     @objc func buttonAction() {
         FavouriteMovieRequest().execute(userID: 19, movieID: 2, favorite: true) { (error) in
             if let error = error {
@@ -53,5 +62,37 @@ class MoviesViewController: UIViewController {
             }
         }
     }
+*/
+}
 
+extension MoviesViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1;
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return DataManager.shared.movies?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath)
+        
+        let movie = DataManager.shared.movies![indexPath.row]
+        cell.textLabel!.text = movie.name
+        
+        return cell
+    }
+}
+
+extension MoviesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedMovie = DataManager.shared.movies![indexPath.row]
+        let movieDetailsViewController = MovieDetailsViewController()
+        movieDetailsViewController.selectedMovie = selectedMovie
+        print("selectedMovie \(selectedMovie)")
+        navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
