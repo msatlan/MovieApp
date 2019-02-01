@@ -20,6 +20,8 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        view.backgroundColor = UIColor.lightGray;
+        
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
@@ -43,13 +45,20 @@ class LoginViewController: UIViewController {
 // MARK - Methods
     // UI & Constraints
     func configureUI() {
-        userNameTextField.backgroundColor = UIColor.lightGray
+        userNameTextField.backgroundColor = UIColor.white
         userNameTextField.placeholder = "Username"
+        userNameTextField.layer.cornerRadius = 8.0
+        userNameTextField.layer.borderWidth = 1.0
+        userNameTextField.layer.borderColor = UIColor.gray.cgColor
         view.addSubview(userNameTextField)
         
         loginButton.addTarget(self, action: #selector(login), for: .touchUpInside)
+        
         loginButton.setTitle("Go!", for: .normal)
-        loginButton.backgroundColor = UIColor.gray
+        loginButton.layer.cornerRadius = 8.0
+        loginButton.layer.borderWidth = 1.0
+        loginButton.layer.borderColor = UIColor.gray.cgColor
+        loginButton.backgroundColor = UIColor.black
         view.addSubview(loginButton)
     }
     

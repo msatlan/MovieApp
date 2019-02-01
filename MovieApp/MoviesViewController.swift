@@ -22,11 +22,12 @@ class MoviesViewController: UIViewController {
             }
             
             DataManager.shared.movies = movies
-            
+
             self.tableView.reloadData()
         }
         
         configureTableView()
+        
     }
 
     private func configureTableView() {
@@ -39,30 +40,6 @@ class MoviesViewController: UIViewController {
         self.view.addSubview(tableView)
         
     }
-    /*
-    @objc func buttonAction() {
-        FavouriteMovieRequest().execute(userID: 19, movieID: 2, favorite: true) { (error) in
-            if let error = error {
-                self.showErrorAlert(withError: error)
-                return
-            }
-        }
-        
-        FavouriteMovieRequest().execute(userID: 19, movieID: 5, favorite: true) { (error) in
-            if let error = error {
-                self.showErrorAlert(withError: error)
-                return
-            }
-        }
-        
-        FavouriteMovieRequest().execute(userID: 19, movieID: 8, favorite: true) { (error) in
-            if let error = error {
-                self.showErrorAlert(withError: error)
-                return
-            }
-        }
-    }
-*/
 }
 
 extension MoviesViewController: UITableViewDataSource {
@@ -77,9 +54,21 @@ extension MoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
-        
+    
         let movie = DataManager.shared.movies![indexPath.row]
     
+        cell.onDidTapButton = {
+            print(movie.id)
+            FavouriteMovieRequest().execute(userID: DataManager.shared.user!.id, movieID: movie.id, favorite: true, completion: { (error) in
+                if let error = error {
+                    self.showErrorAlert(withError: error)
+                    return
+                }
+                
+                DataManager.shared.favoriteMovies?.append(movie)
+            })
+        }
+        
         cell.movieNameLabel.text = movie.name
         
         cell.downloadImage(for: movie)
@@ -90,18 +79,16 @@ extension MoviesViewController: UITableViewDataSource {
 
 extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let selectedMovie = DataManager.shared.movies![indexPath.row]
         let movieDetailsViewController = MovieDetailsViewController()
         movieDetailsViewController.selectedMovie = selectedMovie
-        print("selectedMovie \(selectedMovie)")
         navigationController?.pushViewController(movieDetailsViewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        print(MovieTableViewCell.cellHeight)
+        
         return MovieTableViewCell.cellHeight
     }
 }

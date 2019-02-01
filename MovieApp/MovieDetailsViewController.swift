@@ -21,18 +21,12 @@ class MovieDetailsViewController: UIViewController {
     let favoritedLabel = UILabel()
 
 // MARK: - View life cycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationItem.setHidesBackButton(false, animated: false)
-    }
-    
     override func viewDidLoad() {
         
         configureUI()
         addConstraints()
     }
-    
+
     func configureUI() {
         nameLabel.text = "Name: \(selectedMovie!.name)"
         view.addSubview(nameLabel)
@@ -63,7 +57,7 @@ class MovieDetailsViewController: UIViewController {
         descriptionLabel.sizeToFit()
         view.addSubview(descriptionLabel)
         
-        favoritedLabel.text = "Times favorited: \(String(selectedMovie!.timesFavorited))"
+        favoritedLabel.text = "Times favorited: 5"
         view.addSubview(favoritedLabel)
     }
     

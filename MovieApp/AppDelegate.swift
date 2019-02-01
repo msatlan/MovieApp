@@ -19,11 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
         self.window?.makeKeyAndVisible()
-        //self.window?.rootViewController = LoginViewController()
         
         let mainController = LoginViewController() as UIViewController
         let navigationController = UINavigationController(rootViewController: mainController)
-        //navigationController.navigationBar.isTranslucent = false
         self.window?.rootViewController = navigationController
         
         return true

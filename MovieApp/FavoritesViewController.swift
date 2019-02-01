@@ -12,6 +12,12 @@ class FavoritesViewController: UIViewController {
     let tableView = UITableView()
     
     // MARK: - View life cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +62,19 @@ extension FavoritesViewController: UITableViewDataSource {
         
         let movie = DataManager.shared.favoriteMovies?[indexPath.row]
         
+        cell.onDidTapButton = {
+            FavouriteMovieRequest().execute(userID: DataManager.shared.user!.id, movieID: movie!.id, favorite: false, completion: { (error) in
+                if let error = error {
+                    self.showErrorAlert(withError: error)
+                    return
+                }
+                
+                DataManager.shared.favoriteMovies!.removeAll {$0.id == movie?.id}
+                
+                self.tableView.reloadData()
+            })
+        }
+        
         if let movie = movie {
             cell.movieNameLabel.text = movie.name
         }
@@ -67,5 +86,14 @@ extension FavoritesViewController: UITableViewDataSource {
 extension FavoritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return MovieTableViewCell.cellHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedMovie = DataManager.shared.favoriteMovies![indexPath.row]
+        let movieDetailsViewController = MovieDetailsViewController()
+        movieDetailsViewController.selectedMovie = selectedMovie
+        navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

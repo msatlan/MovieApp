@@ -11,6 +11,12 @@ import UIKit
 class MoviesListTabBarController: UITabBarController {
     
 // MARK: - View life cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationItem.title = "Welcome \(DataManager.shared.user?.username ?? "")"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -18,6 +24,11 @@ class MoviesListTabBarController: UITabBarController {
         configureTabBarController()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationItem.title = ""
+    }
 // MARK: - Methods
     func configureNavigationBar() {
         self.navigationItem.setHidesBackButton(true, animated: false)

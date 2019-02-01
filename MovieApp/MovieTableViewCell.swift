@@ -44,8 +44,11 @@ class MovieTableViewCell: UITableViewCell {
         movieNameLabel.numberOfLines = 0
         contentView.addSubview(movieNameLabel)
         
-        favoriteButton.setImage(UIImage(named: "StarEmpty"), for: .normal)
         favoriteButton.imageEdgeInsets = UIEdgeInsets(top: 30,left: 10,bottom: 30,right: 10)
+        
+        favoriteButton.setImage(UIImage(named : "StarEmpty"), for: UIControl.State.normal)
+        favoriteButton.setImage(UIImage(named : "Star"), for: UIControl.State.selected)
+        
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         contentView.addSubview(favoriteButton)
     }
@@ -55,6 +58,8 @@ class MovieTableViewCell: UITableViewCell {
         let thumbnailImageViewHeight = CGFloat(100)
         
         let movieNameLabelWidth = CGFloat(160)
+        
+        let favoriteButtonWidth = CGFloat(60)
         
         let margin = CGFloat(5)
         let spaceing = CGFloat(10)
@@ -78,7 +83,7 @@ class MovieTableViewCell: UITableViewCell {
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             favoriteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: margin),
-            favoriteButton.leftAnchor.constraint(equalTo: movieNameLabel.rightAnchor, constant: spaceing),
+            favoriteButton.widthAnchor.constraint(equalToConstant: favoriteButtonWidth),
             favoriteButton.heightAnchor.constraint(equalToConstant: thumbnailImageViewHeight),
             favoriteButton.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin)
             ])
@@ -94,6 +99,14 @@ class MovieTableViewCell: UITableViewCell {
     
     @objc func favoriteButtonTapped() {
         onDidTapButton?()
+        
+        /*
+        if (favoriteButton.isSelected ==  true) {
+            favoriteButton.isSelected = false;
+        } else {
+            favoriteButton.isSelected = true;
+        }
+ */
     }
 
 }
