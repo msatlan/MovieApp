@@ -30,8 +30,9 @@ class FavoritesViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: "MovieCell")
         tableView.dataSource = self
+        tableView.delegate = self
         
         tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 49)
         
@@ -51,14 +52,20 @@ extension FavoritesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
         
         let movie = DataManager.shared.favoriteMovies?[indexPath.row]
         
         if let movie = movie {
-            cell.textLabel!.text = movie.name
+            cell.movieNameLabel.text = movie.name
         }
         
         return cell
+    }
+}
+
+extension FavoritesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return MovieTableViewCell.cellHeight
     }
 }

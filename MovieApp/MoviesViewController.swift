@@ -30,7 +30,7 @@ class MoviesViewController: UIViewController {
     }
 
     private func configureTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: "MovieCell")
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -76,10 +76,13 @@ extension MoviesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
         
         let movie = DataManager.shared.movies![indexPath.row]
-        cell.textLabel!.text = movie.name
+    
+        cell.movieNameLabel.text = movie.name
+        
+        cell.downloadImage(for: movie)
         
         return cell
     }
@@ -87,6 +90,7 @@ extension MoviesViewController: UITableViewDataSource {
 
 extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let selectedMovie = DataManager.shared.movies![indexPath.row]
         let movieDetailsViewController = MovieDetailsViewController()
         movieDetailsViewController.selectedMovie = selectedMovie
@@ -94,5 +98,10 @@ extension MoviesViewController: UITableViewDelegate {
         navigationController?.pushViewController(movieDetailsViewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        print(MovieTableViewCell.cellHeight)
+        return MovieTableViewCell.cellHeight
     }
 }

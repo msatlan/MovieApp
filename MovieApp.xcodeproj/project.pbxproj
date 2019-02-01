@@ -20,6 +20,7 @@
 		2EDD04522203532D00C26A54 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD04512203532D00C26A54 /* User.swift */; };
 		2EDD045422044A9E00C26A54 /* UIImageView+DownloadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD045322044A9E00C26A54 /* UIImageView+DownloadImage.swift */; };
 		2EDD045622044F3E00C26A54 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD045522044F3E00C26A54 /* MovieDetailsViewController.swift */; };
+		2EDD04582204608900C26A54 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD04572204608900C26A54 /* MovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		2EDD04512203532D00C26A54 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2EDD045322044A9E00C26A54 /* UIImageView+DownloadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadImage.swift"; sourceTree = "<group>"; };
 		2EDD045522044F3E00C26A54 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		2EDD04572204608900C26A54 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				2EDD04442200E12400C26A54 /* MoviesListTabBarController.swift */,
 				2EDD04462200EA2800C26A54 /* MoviesViewController.swift */,
 				2EDD04482200EA4400C26A54 /* FavoritesViewController.swift */,
+				2EDD04572204608900C26A54 /* MovieTableViewCell.swift */,
 			);
 			name = MoviesListScreen;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			files = (
 				2EDD04322200D55C00C26A54 /* LoginViewController.swift in Sources */,
 				2EDD04502202DE0200C26A54 /* DataManager.swift in Sources */,
+				2EDD04582204608900C26A54 /* MovieTableViewCell.swift in Sources */,
 				2EDD044E2201687700C26A54 /* MovieAPI.swift in Sources */,
 				2EDD04302200D55C00C26A54 /* AppDelegate.swift in Sources */,
 				2EDD045422044A9E00C26A54 /* UIImageView+DownloadImage.swift in Sources */,
